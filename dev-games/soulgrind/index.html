@@ -4,59 +4,21 @@
   <meta charset="utf-8">
   <title>Soulgrind</title>
   <style>
-    html, body { margin: 0; height: 100%; background: #0b0910; overflow: hidden; }
-    canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+    html, body { margin: 0; height: 100%; background: #07050a; overflow: hidden; }
+    body { display: grid; place-items: center; }
+    canvas { display: block; image-rendering: pixelated; cursor: none; }
   </style>
 </head>
 <body>
-  <canvas id="c"></canvas>
-  <script>
-    // Platzhalter, bis das echte Spiel existiert: kleiner Held, WASD zum Laufen.
-    const W = 320, H = 180;
-    const c = document.getElementById('c');
-    c.width = W; c.height = H;
-    const ctx = c.getContext('2d');
-    const keys = {};
-    addEventListener('keydown', (e) => keys[e.key.toLowerCase()] = true);
-    addEventListener('keyup', (e) => keys[e.key.toLowerCase()] = false);
-    const hero = { x: W / 2, y: H / 2 + 20 };
-    const sprite = [
-      '..####..',
-      '.######.',
-      '.#.##.#.',
-      '.######.',
-      '..####..',
-      '.######.',
-      '#.####.#',
-      '..#..#..',
-    ];
-    let t = 0;
-    function frame() {
-      t++;
-      const sp = 1.2;
-      if (keys.w) hero.y -= sp; if (keys.s) hero.y += sp;
-      if (keys.a) hero.x -= sp; if (keys.d) hero.x += sp;
-      hero.x = Math.max(0, Math.min(W - 8, hero.x));
-      hero.y = Math.max(60, Math.min(H - 8, hero.y));
-
-      ctx.fillStyle = '#0b0910'; ctx.fillRect(0, 0, W, H);
-      for (let i = 0; i < 40; i++) { // Boden-Pixel
-        ctx.fillStyle = '#1a1424';
-        ctx.fillRect((i * 53) % W, 60 + ((i * 37) % (H - 60)), 2, 2);
-      }
-      ctx.fillStyle = '#8b3dff';
-      ctx.font = '24px monospace'; ctx.textAlign = 'center';
-      ctx.fillText('SOULGRIND', W / 2, 34);
-      ctx.fillStyle = '#8b8a95'; ctx.font = '8px monospace';
-      ctx.fillText(t % 60 < 40 ? 'in Entwicklung · WASD zum Laufen' : '', W / 2, 48);
-
-      ctx.fillStyle = '#f1ede2';
-      sprite.forEach((row, y) => [...row].forEach((ch, x) => {
-        if (ch === '#') ctx.fillRect(Math.round(hero.x) + x, Math.round(hero.y) + y, 1, 1);
-      }));
-      requestAnimationFrame(frame);
-    }
-    frame();
-  </script>
+  <canvas id="game" width="384" height="216"></canvas>
+  <script src="js/font.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/classes.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/enemies.js"></script>
+  <script src="js/projectiles.js"></script>
+  <script src="js/hud.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
