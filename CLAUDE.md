@@ -3,6 +3,8 @@
 Electron-Launcher im Pixel-Stil für die Spiele des Nutzers. Versionen, Patch Notes, Installation und Updates kommen aus GitHub Releases.
 Der Nutzer vibecodet, spricht Deutsch und ist kein Profi-Entwickler. Erklärungen kurz und verständlich halten, Antworten auf Deutsch.
 
+**Hintergrund:** `../Soulgrind-Game/VERLAUF.md` erklärt bisherige Entscheidungen, Versionen und offene Punkte (Spiel und Launcher). Zu Beginn lesen und bei wichtigen neuen Entscheidungen unten ergänzen.
+
 ## Projekt-Aufbau
 
 Zwei Repos, lokal **nebeneinander** im selben Ordner:
@@ -39,4 +41,5 @@ Automatisch mit einem kleinen Electron-Skript: `app.setPath('userData', <Testord
   `$env:Path = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')`
 - Unter Node 26 entpackt sich Electron bei `npm install` evtl. nicht vollständig (`electron.exe` fehlt). Fix steht in der README.
 - Windows PowerShell 5.1 zerlegt Argumente mit `"` falsch: Commit-Nachrichten und Release-Notes über Dateien übergeben (`git commit -F`, `--notes-file`).
-- Commits mit der GitHub-noreply-Adresse des Nutzers, nie mit einer privaten E-Mail.
+- Commits mit der GitHub-noreply-Adresse des Nutzers, nie mit einer privaten E-Mail. Vor dem ersten Commit `git config --local user.email` prüfen. Ist nichts gesetzt (z. B. auf einem anderen PC), in **beiden** Ordnern (`Soulgrind` und `Soulgrind-Game`) selbst einrichten:
+  `git config --local user.name lysoqa` und `git config --local user.email 339582153+lysoqa@users.noreply.github.com`
