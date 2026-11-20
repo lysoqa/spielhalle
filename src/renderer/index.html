@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' file:; img-src 'self' file: data: https:; style-src 'self' file: 'unsafe-inline'; font-src 'self' file: data:; script-src 'self' file:">
+  <title>Spielhalle</title>
+  <link rel="stylesheet" href="../../node_modules/@fontsource/silkscreen/400.css">
+  <link rel="stylesheet" href="../../node_modules/@fontsource/silkscreen/700.css">
+  <link rel="stylesheet" href="../../node_modules/@fontsource/pixelify-sans/400.css">
+  <link rel="stylesheet" href="../../node_modules/@fontsource/pixelify-sans/600.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo"><span class="logo-mark"></span>Spielhalle</div>
+    <nav class="tabs">
+      <button class="tab active" data-view="games">Spiele</button>
+      <button class="tab" data-view="settings">Einstellungen</button>
+    </nav>
+    <button class="icon-btn" id="refresh-all" title="Alles neu laden">⟳</button>
+  </header>
+
+  <main id="view-games" class="view">
+    <section class="shelf-section">
+      <div class="shelf-head">
+        <h2>Deine Spiele</h2>
+        <span class="muted" id="shelf-count"></span>
+      </div>
+      <div class="shelf" id="shelf"></div>
+    </section>
+    <section class="detail" id="detail"></section>
+  </main>
+
+  <main id="view-settings" class="view hidden">
+    <div class="settings">
+      <h2>Einstellungen</h2>
+
+      <div class="setting">
+        <label class="check">
+          <input type="checkbox" id="set-close">
+          <span>Launcher beim Spielstart minimieren</span>
+        </label>
+      </div>
+
+      <div class="setting">
+        <h3>GitHub-Token</h3>
+        <p class="muted">Nur nötig für private Repos oder wenn GitHub das Abfrage-Limit erreicht.
+          Ein „Fine-grained token“ mit Lesezugriff auf <em>Contents</em> reicht. Wird verschlüsselt auf diesem PC gespeichert.</p>
+        <div class="row">
+          <input type="password" id="set-token" placeholder="github_pat_…" autocomplete="off">
+          <button class="btn" id="save-token">Speichern</button>
+          <button class="btn ghost" id="clear-token">Entfernen</button>
+        </div>
+        <p class="muted small" id="token-status"></p>
+      </div>
+
+      <div class="setting">
+        <h3>Daten</h3>
+        <p class="muted small" id="data-dir"></p>
+        <button class="btn ghost" id="open-data">Ordner öffnen</button>
+      </div>
+
+      <p class="muted small" id="app-version"></p>
+    </div>
+  </main>
+
+  <dialog id="add-dialog">
+    <form method="dialog" id="add-form">
+      <h2>Spiel hinzufügen</h2>
+      <label>Name<input name="name" placeholder="z. B. Leuchtfeuer"></label>
+      <label>GitHub-Repo<input name="repo" placeholder="besitzer/repo" required></label>
+      <label>Startdatei <span class="muted">(optional, sonst automatisch)</span><input name="exe" placeholder="MeinSpiel.exe"></label>
+      <div class="colors" id="color-pick"></div>
+      <p class="error" id="add-error"></p>
+      <div class="row end">
+        <button type="button" class="btn ghost" id="add-cancel">Abbrechen</button>
+        <button type="submit" class="btn primary">Hinzufügen</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="menu hidden" id="more-menu"></div>
+  <div class="toasts" id="toasts"></div>
+
+  <script src="markdown.js"></script>
+  <script src="pixel.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

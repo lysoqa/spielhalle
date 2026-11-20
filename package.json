@@ -1,0 +1,37 @@
+{
+  "name": "spielhalle",
+  "productName": "Spielhalle",
+  "version": "0.1.0",
+  "description": "Pixel-Launcher für unsere Spiele",
+  "main": "src/main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win"
+  },
+  "dependencies": {
+    "@fontsource/pixelify-sans": "^5.1.0",
+    "@fontsource/silkscreen": "^5.1.0",
+    "extract-zip": "^2.0.1"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "de.soulgrind.spielhalle",
+    "files": [
+      "src/**/*",
+      "dev-games/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "Spielhalle-Setup-${version}.${ext}"
+    }
+  }
+}
