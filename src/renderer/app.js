@@ -67,7 +67,7 @@ function statusOf(game) {
     return { kind: 'busy', label: pct != null ? `Lädt ${pct} %` : 'Lädt …', pct };
   }
   if (prog && prog.phase === 'extract') return { kind: 'busy', label: 'Entpacke …', pct: 100 };
-  if (game.local) return { kind: 'play', label: 'Spielen' };
+  if (game.dev) return { kind: 'play', label: 'Spielen' };
   if (!game.installedVersion) {
     if (latest?.asset) return { kind: 'install', label: 'Installieren' };
     if (!rel) return { kind: 'wait', label: 'Prüfe …' };
@@ -91,7 +91,7 @@ function renderShelf() {
   $('#shelf-count').textContent = `${games.length} im Regal · ${installed} installiert`;
   const tiles = games.map((g) => {
     const rel = releases[g.id];
-    const version = g.local ? 'dev' : g.installedVersion || (rel && rel.version) || '–';
+    const version = g.dev ? 'dev' : g.installedVersion || (rel && rel.version) || '–';
     const hasUpdate = statusOf(g).kind === 'update';
     return `
       <button class="tile ${g.id === selected ? 'selected' : ''}" data-id="${esc(g.id)}" style="--c:${esc(g.color || '#888')}">
@@ -113,7 +113,7 @@ function renderDetail() {
 
   const rel = releases[g.id];
   const st = statusOf(g);
-  const stateLine = g.local ? 'Dev-Version aus dem Projektordner'
+  const stateLine = g.dev ? 'Dev-Version aus dem Projektordner'
     : g.installedVersion ? `v${esc(g.installedVersion)} installiert` : 'nicht installiert';
   const meta = [
     g.repo ? `<a href="#" class="repo" data-action="repo">${esc(g.repo)} ↗</a>` : null,
@@ -147,12 +147,12 @@ function renderDetail() {
 }
 
 function releaseHtml(g, rel) {
-  if (g.local) {
+  if (g.dev) {
+    const latest = rel && rel.version ? `Neuestes Release auf GitHub: <strong>v${esc(rel.version)}</strong>.` : '';
     return `<div class="bigver">DEV</div>
       <p class="muted">Läuft direkt aus <code>${esc(g.local)}</code>.</p>
-      <div class="notes"><p>Sobald das Spiel ein eigenes GitHub-Repo mit Releases hat, trägst du es in
-      <code>src/games.default.json</code> als <code>"repo"</code> ein und entfernst <code>"local"</code>.
-      Dann zeigt der Launcher hier Version und Patch Notes.</p></div>`;
+      <div class="notes"><p>Entwicklermodus: Änderungen im Spielordner sind sofort spielbar.
+      Im installierten Launcher kommt das Spiel aus den GitHub-Releases. ${latest}</p></div>`;
   }
   if (!rel) return '<div class="bigver dim">…</div><p class="muted">Lade Release-Infos …</p>';
   if (rel.error) return `<div class="bigver dim">?</div><p class="error">${esc(rel.error)}</p>`;
@@ -191,7 +191,7 @@ function openMore(g, anchor) {
   const menu = $('#more-menu');
   const items = [['folder', 'Ordner öffnen']];
   if (g.repo) items.push(['repo', 'Auf GitHub ansehen']);
-  if (g.installedVersion && !g.local) items.push(['reinstall', 'Neu installieren'], ['uninstall', 'Deinstallieren']);
+  if (g.installedVersion && !g.dev) items.push(['reinstall', 'Neu installieren'], ['uninstall', 'Deinstallieren']);
   if (!g.builtin) items.push(['remove', 'Aus dem Regal entfernen']);
   menu.innerHTML = items.map(([a, l]) => `<button data-menu="${a}" class="${a === 'uninstall' || a === 'remove' ? 'danger' : ''}">${l}</button>`).join('');
   const r = anchor.getBoundingClientRect();

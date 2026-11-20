@@ -114,6 +114,17 @@ async function latestRelease(game, force = false) {
     };
   } catch (e) {
     if (e.status !== 404) throw e;
+    // 404 heißt entweder "keine Releases" oder "Repo privat / nicht sichtbar"
+    try {
+      await gh(`https://api.github.com/repos/${game.repo}`);
+    } catch (e2) {
+      if (e2.status === 404) {
+        throw new Error(getToken()
+          ? 'Kein Zugriff auf das Repo. Hat der Token Leserechte für dieses Repo?'
+          : 'Privates Repo: Bitte in den Einstellungen einen GitHub-Token eintragen.');
+      }
+      throw e2;
+    }
     data = { none: true };
   }
   releaseCache.set(game.id, { at: Date.now(), data });
@@ -133,7 +144,7 @@ async function dirSize(dir) {
 
 async function install(id) {
   const game = findGame(id);
-  if (game.local) throw new Error('Dev-Spiele werden direkt aus dem Ordner gestartet.');
+  if (isDev(game)) throw new Error('Dev-Spiele werden direkt aus dem Ordner gestartet.');
   if (running.has(id)) throw new Error('Das Spiel läuft gerade. Bitte erst beenden.');
   if (busy.has(id)) return;
   busy.add(id);
@@ -184,7 +195,7 @@ async function install(id) {
 
 async function uninstall(id) {
   const game = findGame(id);
-  if (game.local) throw new Error('Dev-Spiele können nicht deinstalliert werden.');
+  if (isDev(game)) throw new Error('Dev-Spiele können nicht deinstalliert werden.');
   if (running.has(id)) throw new Error('Das Spiel läuft gerade. Bitte erst beenden.');
   await fsp.rm(path.join(GAMES_DIR, id), { recursive: true, force: true });
   if (state.games[id]) {
@@ -197,8 +208,18 @@ async function uninstall(id) {
 
 // ---------- Starten ----------
 
+// Beim Entwickeln (npm start) wird ein Spiel mit "local" direkt aus seinem Ordner gestartet.
+// Im installierten Launcher kommt es immer aus den GitHub-Releases.
+function localDir(game) {
+  return game.local ? path.resolve(app.getAppPath(), game.local) : null;
+}
+
+function isDev(game) {
+  return !app.isPackaged && !!game.local && fs.existsSync(localDir(game));
+}
+
 function gameDir(game) {
-  return game.local ? path.join(app.getAppPath(), game.local) : path.join(GAMES_DIR, game.id);
+  return isDev(game) ? localDir(game) : path.join(GAMES_DIR, game.id);
 }
 
 async function findLaunchFile(dir, depth = 0) {
@@ -264,7 +285,8 @@ function listGames() {
     const s = state.games[g.id] || {};
     return {
       ...g,
-      installedVersion: g.local ? 'dev' : s.installedVersion || null,
+      dev: isDev(g),
+      installedVersion: isDev(g) ? 'dev' : s.installedVersion || null,
       sizeBytes: s.sizeBytes || 0,
       playSeconds: s.playSeconds || 0,
       lastPlayed: s.lastPlayed || null,

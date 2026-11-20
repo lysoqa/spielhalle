@@ -41,10 +41,13 @@ Stehen in `src/games.default.json`. Felder:
 | `name`  | Anzeigename |
 | `color` | Farbe der Kachel |
 | `repo`  | GitHub-Repo `besitzer/repo` |
-| `local` | Ordner im Projekt, wird direkt gestartet (für Spiele in Entwicklung) |
+| `local` | Spielordner relativ zum Launcher. Nur bei `npm start` (Entwicklung) wird das Spiel direkt von dort gestartet, der installierte Launcher nutzt immer `repo`. |
 | `exe`   | optional: Startdatei im Spielordner |
 | `asset` | optional: Muster für den Namen der .zip im Release |
 | `icon`  | optional: Pixel-Icon aus Zeilen mit `#` und `.` |
+
+Soulgrind liegt in `../Soulgrind-Game` (eigenes Repo `lysoqa/soulgrind`).
+Spiel-Updates veröffentlichst du dort mit `.\release.ps1 <version> "<Patch Notes>"`.
 
 ## Als .exe bauen
 

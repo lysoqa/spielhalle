@@ -3,8 +3,8 @@
     "id": "soulgrind",
     "name": "Soulgrind",
     "color": "#8b3dff",
-    "repo": null,
-    "local": "dev-games/soulgrind",
+    "repo": "lysoqa/soulgrind",
+    "local": "../Soulgrind-Game",
     "icon": [
       "...######...",
       "..########..",

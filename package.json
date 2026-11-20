@@ -1,7 +1,7 @@
 {
   "name": "spielhalle",
   "productName": "Spielhalle",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Pixel-Launcher für unsere Spiele",
   "main": "src/main.js",
   "private": true,
@@ -21,8 +21,7 @@
   "build": {
     "appId": "de.soulgrind.spielhalle",
     "files": [
-      "src/**/*",
-      "dev-games/**/*"
+      "src/**/*"
     ],
     "win": {
       "target": "nsis",
