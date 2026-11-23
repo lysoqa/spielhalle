@@ -265,6 +265,11 @@ async function play(id) {
       width: 1280, height: 800, title: game.name, backgroundColor: '#000000', autoHideMenuBar: true,
       webPreferences: { contextIsolation: true, sandbox: true },
     });
+    // Links aus dem Spiel (z. B. Discord-Einladung) im normalen Browser öffnen, nicht in einem Spielfenster
+    gw.webContents.setWindowOpenHandler(({ url }) => {
+      if (/^https:\/\//i.test(url)) shell.openExternal(url);
+      return { action: 'deny' };
+    });
     gw.loadFile(file);
     gw.on('closed', done);
   } else {
