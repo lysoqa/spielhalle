@@ -8,6 +8,9 @@ const { pipeline } = require('stream/promises');
 const extract = require('extract-zip');
 
 const DEFAULT_GAMES = require('./games.default.json');
+// Der Launcher hieß früher „Spielhalle“. Der Datenordner bleibt %APPDATA%Spielhalle,
+// damit installierte Spiele, Spielstände und der Login beim Umbenennen erhalten bleiben.
+app.setPath('userData', path.join(app.getPath('appData'), 'Spielhalle'));
 const DATA_DIR = app.getPath('userData');
 const STATE_FILE = path.join(DATA_DIR, 'state.json');
 const GAMES_DIR = path.join(DATA_DIR, 'games');
@@ -71,7 +74,7 @@ function setToken(token) {
 // ---------- GitHub Releases ----------
 
 async function gh(url, accept = 'application/vnd.github+json') {
-  const headers = { Accept: accept, 'User-Agent': 'Spielhalle-Launcher', 'X-GitHub-Api-Version': '2022-11-28' };
+  const headers = { Accept: accept, 'User-Agent': 'Soqa-Launcher', 'X-GitHub-Api-Version': '2022-11-28' };
   const token = getToken();
   if (token) headers.Authorization = `Bearer ${token}`;
   const res = await fetch(url, { headers });
@@ -366,7 +369,8 @@ for (const [channel, fn] of Object.entries(handlers)) {
 function createWindow() {
   win = new BrowserWindow({
     width: 1200, height: 780, minWidth: 900, minHeight: 600,
-    title: 'Spielhalle', backgroundColor: '#0d0d11', autoHideMenuBar: true,
+    title: 'Soqa Launcher', backgroundColor: '#0d0d11', autoHideMenuBar: true,
+    icon: path.join(__dirname, 'icon.png'),
     webPreferences: { preload: path.join(__dirname, 'preload.js'), contextIsolation: true, sandbox: true },
   });
   win.webContents.setWindowOpenHandler(({ url }) => {

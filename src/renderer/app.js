@@ -312,7 +312,7 @@ async function loadSettings() {
   $('#set-close').checked = s.closeOnLaunch;
   $('#token-status').textContent = s.hasToken ? 'Ein Token ist gespeichert.' : 'Kein Token gespeichert.';
   $('#data-dir').textContent = s.dataDir;
-  $('#app-version').textContent = `Spielhalle v${s.version}`;
+  $('#app-version').textContent = `Soqa Launcher v${s.version}`;
 }
 $('#set-close').addEventListener('change', (e) => api.setSettings({ closeOnLaunch: e.target.checked }));
 $('#save-token').addEventListener('click', async () => {

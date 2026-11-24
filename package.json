@@ -1,7 +1,7 @@
 {
   "name": "spielhalle",
-  "productName": "Spielhalle",
-  "version": "0.3.0",
+  "productName": "Soqa Launcher",
+  "version": "0.4.0",
   "description": "Pixel-Launcher für unsere Spiele",
   "main": "src/main.js",
   "private": true,
@@ -25,12 +25,13 @@
     ],
     "win": {
       "target": "nsis",
+      "icon": "build/icon.png",
       "signAndEditExecutable": false
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-      "artifactName": "Spielhalle-Setup-${version}.${ext}"
+      "artifactName": "Soqa-Launcher-Setup-${version}.${ext}"
     }
   }
 }

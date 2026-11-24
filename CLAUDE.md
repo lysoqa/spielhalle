@@ -1,4 +1,6 @@
-# Spielhalle – Hinweise für Claude
+# Soqa Launcher (früher Spielhalle) – Hinweise für Claude
+
+Seit 0.4.0 heißt der Launcher **Soqa Launcher** (Icon: `build/icon.png`, `src/icon.png`). Repo und Ordner heißen weiter `spielhalle` / `Soulgrind`.
 
 Electron-Launcher im Pixel-Stil für die Spiele des Nutzers. Versionen, Patch Notes, Installation und Updates kommen aus GitHub Releases.
 Der Nutzer vibecodet, spricht Deutsch und ist kein Profi-Entwickler. Erklärungen kurz und verständlich halten, Antworten auf Deutsch.
@@ -22,13 +24,13 @@ Am Spiel wird in `../Soulgrind-Game` gearbeitet, nicht hier.
 - Schriften: `@fontsource/silkscreen` und `@fontsource/pixelify-sans` aus `node_modules`.
 - Eingebaute Spiele in `src/games.default.json`. `repo` = GitHub-Repo, `local` = Ordner relativ zum Launcher. **`local` gilt nur bei `npm start`** (nicht gepackt); der installierte Launcher nutzt immer die Releases.
 - Spiele werden als `.zip` aus dem neuesten Release geladen. Darin eine `.exe` oder `index.html` (Web-Spiele öffnen in einem eigenen Electron-Fenster).
-- Nutzerdaten (installierte Spiele, Spielzeit, verschlüsselter GitHub-Token) liegen in `%APPDATA%\Spielhalle`.
+- Nutzerdaten (installierte Spiele, Spielzeit, verschlüsselter GitHub-Token) liegen in `%APPDATA%\Spielhalle`. Dieser Ordner bleibt trotz neuem Namen gleich (`app.setPath` oben in `src/main.js`), sonst gingen Spiele und Login verloren.
 
 ## Starten und Bauen
 
 - Entwickeln: `npm start` oder `Spielhalle starten.bat`.
-- Installer bauen: `version` in `package.json` erhöhen, dann `npm run dist` → `dist/Spielhalle-Setup-<version>.exe`.
-- Veröffentlichen: committen, pushen, `gh release create v<version> dist/Spielhalle-Setup-<version>.exe --title … --notes-file …`.
+- Installer bauen: `version` in `package.json` erhöhen, dann `npm run dist` → `dist/Soqa-Launcher-Setup-<version>.exe`.
+- Veröffentlichen: committen, pushen, `gh release create v<version> dist/Soqa-Launcher-Setup-<version>.exe --title … --notes-file …`.
 - Code-Signierung ist abgeschaltet (`signAndEditExecutable: false`), weil das Signier-Werkzeug Admin-Rechte bräuchte. Windows zeigt deshalb beim Installer eine SmartScreen-Warnung.
 
 ## Testen
