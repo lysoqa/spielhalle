@@ -273,6 +273,10 @@ async function play(id) {
       if (/^https:\/\//i.test(url)) shell.openExternal(url);
       return { action: 'deny' };
     });
+    // Strg+W / Strg+R würden das Spielfenster schließen bzw. neu laden: im Spiel abfangen
+    gw.webContents.on('before-input-event', (event, input) => {
+      if (input.type === 'keyDown' && (input.control || input.meta) && ['w', 'r'].includes(String(input.key).toLowerCase())) event.preventDefault();
+    });
     gw.loadFile(file);
     gw.on('closed', done);
   } else {
