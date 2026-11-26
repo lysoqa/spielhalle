@@ -16,6 +16,7 @@ Zwei Repos, lokal **nebeneinander** im selben Ordner:
 | `Soulgrind` | `lysoqa/spielhalle` (öffentlich) | dieser Launcher |
 | `Soulgrind-Game` | `lysoqa/soulgrind` (öffentlich) | das Spiel Soulgrind, hat eine eigene CLAUDE.md |
 | `Aschenreich` | `lysoqa/aschenreich` (öffentlich) | das Spiel Aschenreich (ab Launcher 0.5.0), hat eine eigene CLAUDE.md |
+| `Hexenpfad` | `lysoqa/hexenpfad` (öffentlich) | das Spiel Hexenpfad (ab Launcher 0.7.0), hat eine eigene CLAUDE.md |
 
 Am Spiel wird in `../Soulgrind-Game` gearbeitet, nicht hier.
 
